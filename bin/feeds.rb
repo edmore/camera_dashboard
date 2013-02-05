@@ -1,10 +1,8 @@
 #! /usr/bin/env ruby
 
-# Load the @camera_dashboard gemset ...
-system("source /Users/edmoremoyo/.rvm/environments/ruby-1.9.3-rc1@camera_dashboard")
-system("gem list")
-
+require 'rubygems'
 require 'redis'
+
 redis = Redis.new
 cmds = []
 venue_list = redis.lrange("venues", 0, -1)
