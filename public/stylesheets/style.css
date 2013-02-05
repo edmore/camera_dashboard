@@ -1,0 +1,46 @@
+body{
+  width:960px;
+  font-family: monospace;
+  font-size: 1em;
+  background:#FFF;
+}
+
+ul.venues{
+list-style: none;
+margin: 0;
+padding: 0;
+width: 680px;
+}
+
+li.venue{
+border-top: 1px solid #000;
+}
+
+li.venue { background: #FFF; }
+ul.venues > li:nth-child(odd){
+background-color: #f7f7f7;
+}
+
+div.details{
+float: left;
+width: 350px;
+}
+
+div.details ul{
+list-style: none;
+margin-left: 0px;
+margin-top: 5px;
+padding: 0px;
+}
+
+div.details li span:nth-child(1){
+font-weight: bold;
+}
+
+div.feed{
+float:right;
+}
+
+div.clear{
+clear: both;
+}

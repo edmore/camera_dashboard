@@ -1,0 +1,7 @@
+%body
+  %p Are you sure you want to delete the following venue?
+
+  %form{:name => "venue_update_form", :method => "post", :action => "/venue/#{v_id}"}
+    %input{:type => "hidden", :name =>"_method",:value => "delete"}
+    %input{:type => "submit", :value => "Delete"}
+    %a{:href => "/venue"} Cancel

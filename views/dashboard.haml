@@ -1,0 +1,32 @@
+%body
+  %h1
+    IP Camera Dashboard
+  %p
+    %a{:href => "/"} Tiled View
+    %a{:href => "/grid"} Grid View
+    %a{:href => "/venue"} Manage
+  -if venues.any?
+    %ul.venues
+      - venues.each do |venue|
+        %li.venue
+          %div.details
+            %ul
+              %li
+                %span Venue:
+                %span
+                  = venue[0]
+              %li
+                %span Camera URL:
+                %span
+                  = venue[1]
+              %li
+                -unless venue[3].nil?
+                  %span Last Updated:
+                  %span
+                    = venue[3]
+          %div.feed
+            -unless venue[3].nil?
+              %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}
+          %div.clear
+  -else
+    = "Sorry IP camera information not setup yet."

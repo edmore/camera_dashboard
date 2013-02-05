@@ -1,0 +1,6 @@
+.autotest
+.rspec
+dump.rdb
+.directory
+.rvmrc
+.DS_Store
