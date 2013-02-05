@@ -1,1 +1,1 @@
-IP camera dasboard
+IP camera dashboard
