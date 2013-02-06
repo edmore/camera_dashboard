@@ -23,7 +23,19 @@ get "/" do
 end
 
 get "/grid" do
-  "Coming to a view near you"
+  venues = []
+  venue_list = redis.lrange("venues", 0, -1)
+
+  venue_list.each_with_index do |v_id, i|
+    venues[i] = []
+    venues[i] << redis.get("venue:#{v_id}:venue_name")
+    venues[i] << redis.get("venue:#{v_id}:cam_url")
+    venues[i] << v_id
+    venues[i] << redis.get("venue:#{v_id}:last_updated")
+  end
+  puts venues.inspect
+
+  haml :grid, :locals => {:venues => venues}
 end
 
 post "/venue" do
