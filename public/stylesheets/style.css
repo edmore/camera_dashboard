@@ -73,3 +73,7 @@ border-collapse: collapse;
 .venue_listing tbody > tr:nth-child(odd){
 background-color: #eee;
 }
+
+.venue_listing td{
+padding: 5px;
+}
