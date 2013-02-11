@@ -22,7 +22,7 @@ get "/" do
   haml :dashboard, :locals => {:venues => venues}
 end
 
-get "/grid" do
+get "/tiled" do
   venues = []
   venue_list = redis.lrange("venues", 0, -1)
 
@@ -35,7 +35,7 @@ get "/grid" do
   end
   puts venues.inspect
 
-  haml :grid, :locals => {:venues => venues}
+  haml :tiled, :locals => {:venues => venues}
 end
 
 post "/venue" do
