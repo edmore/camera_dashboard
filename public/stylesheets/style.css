@@ -18,7 +18,7 @@ li.venue{
 
 li.venue { background: #FFF; }
 ul.venues > li:nth-child(odd){
-    background-color: #f7f7f7;
+    background-color: #eee;
 }
 
 div.details{
@@ -59,4 +59,17 @@ div.grid_venue{
 
 div.grid_venue span{
     font-weight: bold;
+}
+
+table.venue_listing{
+border-collapse: collapse;
+}
+
+.venue_listing thead{
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+}
+
+.venue_listing tbody > tr:nth-child(odd){
+background-color: #eee;
 }

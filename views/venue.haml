@@ -32,17 +32,16 @@
   %div{:class => "venues"}
     %h2 Venues
 
-
     -if venues.any?
-      %table
+      %table.venue_listing
         %thead
           %tr
             %th Venue
             %th Camera URL
             %th
             %th
-        - venues.each do |venue|
-          %tbody
+        %tbody
+          - venues.each do |venue|
             %tr
               %td= venue[0]
               %td= venue[1]
