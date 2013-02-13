@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require 'redis'
+require 'fileutils'
 
 redis = Redis.new
 cmds = []
@@ -14,6 +15,7 @@ venue_list.each do |v_id|
   cam_password = redis.get("venue:#{v_id}:cam_password")
   login_cridentials = "-u #{cam_user} #{cam_password}" unless cam_user == ""
 
+  FileUtils.mkdir_p("/usr/local/camera_dashboard/public/feeds/#{venue_name}/")
   cmds << "openRTSP #{login_cridentials} -F #{venue_name} -d 10 -b 300000 #{cam_url} && ffmpeg -i #{venue_name}video-H264-1 -r 1 -s 320x240 -ss 5 -vframes 1 -f image2 /usr/local/camera_dashboard/public/feeds/#{venue_name}/#{venue_name}.jpeg && rm -f #{venue_name}video-H264-1"
 end
 
