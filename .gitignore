@@ -6,3 +6,5 @@ dump.rdb
 .DS_Store
 *audio-PCMU-2
 *video-H264-1
+*log
+*pid
