@@ -2,12 +2,15 @@ require 'sinatra'
 require 'haml'
 require 'redis'
 require 'digest/sha1'
+require_relative 'matterhornconfig.rb'
+
+include MatterhornConfig
 
 set :haml, :format => :html5
 redis = Redis.new
 
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
-  [username, password] == ['admin', 'admin']
+  [username, password] == MatterhornConfig::IPCam::AUTH
 end
 
 get "/" do
