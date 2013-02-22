@@ -7,5 +7,5 @@ Technologies Used:
 - ffmpeg
 - Thin
 
-PS : Don't forget to rename the example file and put in your desired authentication cridentials
-> mv matterhornconfig.example.rb matterhornconfig.rb
+PS : Don't forget to copy the example file and put in your desired authentication cridentials
+> cp matterhornconfig.example.rb matterhornconfig.rb
