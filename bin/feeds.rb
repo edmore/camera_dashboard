@@ -17,10 +17,10 @@ venue_list.each do |v_id|
   login_cridentials = "-u #{cam_user} #{cam_password}" unless cam_user == ""
 
   FileUtils.mkdir_p("#{app_root}/public/feeds/#{venue_name}/")
-  cmds << "openRTSP #{login_cridentials} -F #{venue_name} -d 10 -b 300000 #{cam_url} && ffmpeg -i #{venue_name}video-H264-1 -r 1 -s 320x180 -ss 5 -vframes 1 -f image2 #{app_root}/public/feeds/#{venue_name}/#{venue_name}.jpeg && rm -f #{venue_name}video-H264-1"
+  cmds << "openRTSP #{login_cridentials} -F #{venue_name} -d 10 -b 300000 #{cam_url} 2> /dev/null && ffmpeg -i #{venue_name}video-H264-1 -r 1 -s 320x180 -ss 5 -vframes 1 -f image2 #{app_root}/public/feeds/#{venue_name}/#{venue_name}.jpeg 2> /dev/null && rm -f #{venue_name}video-H264-1 2> /dev/null"
 end
 
-cmds.each{|c| system c; puts c}
+cmds.each{|c| system c }
 
 # Update the time the image was modified
 venue_list.each do |v_id|
