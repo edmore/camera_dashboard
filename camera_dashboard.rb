@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'haml'
 require 'redis'
-require 'digest/sha1'
 require_relative 'matterhornconfig.rb'
 
 include MatterhornConfig
