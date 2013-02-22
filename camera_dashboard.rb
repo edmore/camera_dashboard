@@ -6,6 +6,10 @@ require 'digest/sha1'
 set :haml, :format => :html5
 redis = Redis.new
 
+use Rack::Auth::Basic, "Restricted Area" do |username, password|
+  [username, password] == ['admin', 'admin']
+end
+
 get "/" do
   venues = []
   venue_list = redis.lrange("venues", 0, -1)
