@@ -77,3 +77,7 @@ background-color: #eee;
 .venue_listing td{
 padding: 5px;
 }
+
+span.flag{
+color : red;
+}

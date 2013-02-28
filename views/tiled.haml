@@ -23,8 +23,12 @@
               %li
                 -unless venue[3].nil?
                   %span Last Updated:
-                  %span
-                    = venue[3]
+                  -if ((today - venue[3])/60).round > 10
+                    %span.flag
+                      = venue[3]
+                  -else
+                    %span.updating
+                      = venue[3]
           %div.feed
             -unless venue[3].nil?
               %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}

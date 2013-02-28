@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'haml'
 require 'redis'
+require 'time'
 require_relative 'matterhornconfig.rb'
 
 include MatterhornConfig
@@ -29,6 +30,7 @@ get "/" do
 end
 
 get "/tiled" do
+  today = Time.now
   venues = []
   venue_list = redis.lrange("venues", 0, -1)
 
@@ -37,11 +39,11 @@ get "/tiled" do
     venues[i] << redis.get("venue:#{v_id}:venue_name")
     venues[i] << redis.get("venue:#{v_id}:cam_url")
     venues[i] << v_id
-    venues[i] << redis.get("venue:#{v_id}:last_updated")
+    venues[i] << Time.parse(redis.get("venue:#{v_id}:last_updated"))
   end
   puts venues.inspect
 
-  haml :tiled, :locals => {:venues => venues}
+  haml :tiled, :locals => {:venues => venues, :today => today}
 end
 
 post "/venue" do
