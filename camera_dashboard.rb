@@ -29,21 +29,23 @@ helpers do
     venues
   end
 
-  def get_venue(v_id)
+  def get_venue(v_id, options)
     venue = []
-    venue << REDIS.get("venue:#{v_id}:venue_name")
-    venue << REDIS.get("venue:#{v_id}:cam_user")
-    venue << REDIS.get("venue:#{v_id}:cam_password")
-    venue << REDIS.get("venue:#{v_id}:cam_url")
+    options.each do |o|
+      venue << REDIS.get("venue:#{v_id}:#{o}")
+    end
     venue << v_id
     venue
   end
 
-  def set_venue(v_id)
-    REDIS.set("venue:#{v_id}:venue_name", params[:venue_name].downcase)
-    REDIS.set("venue:#{v_id}:cam_user", params[:cam_user])
-    REDIS.set("venue:#{v_id}:cam_password", params[:cam_password])
-    REDIS.set("venue:#{v_id}:cam_url", params[:cam_url])
+  def set_venue(v_id, options)
+    options.each do |o|
+      if (o == "venue_name")
+        REDIS.set("venue:#{v_id}:#{o}", params["#{o}".to_sym].downcase)
+      else
+        REDIS.set("venue:#{v_id}:#{o}", params["#{o}".to_sym])
+      end
+    end
   end
 
   def not_regularly_updating(last_updated)
@@ -75,7 +77,7 @@ post "/venue" do
   unless (params[:venue_name] == "" || params[:cam_url] == "")
     v_id = REDIS.incr "venue:id"
     REDIS.rpush("venues", v_id)
-    set_venue(v_id)
+    set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
     cmds << "mkdir public/feeds/#{params[:venue_name]}/"
     system cmds.join("&&")
     status = :success
@@ -85,7 +87,7 @@ end
 
 get "/venue/:id" do
   v_id = params[:id]
-  venue = get_venue(v_id)
+  venue = get_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
   haml :venue_edit, :locals => {:venue => venue}
 end
 
@@ -94,7 +96,7 @@ put "/venue/:id" do
   cmds = []
   v_id = params[:id]
   old_venue_name = REDIS.get("venue:#{v_id}:venue_name")
-  set_venue(v_id)
+  set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"] )
 
   if old_venue_name != params[:venue_name]
     cmds << "mv public/feeds/#{old_venue_name}/ public/feeds/#{params[:venue_name]}/"
