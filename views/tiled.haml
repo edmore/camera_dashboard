@@ -20,8 +20,8 @@
                 %span Camera URL:
                 %span
                   = venue[1]
-              %li
-                -unless venue[3].nil?
+              -unless venue[3].nil?
+                %li
                   %span Last Updated:
                   -if not_regularly_updating(venue[3])
                     %span.flag
