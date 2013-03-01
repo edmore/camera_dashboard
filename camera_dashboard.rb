@@ -89,7 +89,7 @@ put "/venue/:id" do
   cmds = []
   v_id = params[:id]
   old_venue_name = REDIS.get("venue:#{v_id}:venue_name")
-  set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"] )
+  set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
 
   if old_venue_name != params[:venue_name]
     cmds << "mv public/feeds/#{old_venue_name}/ public/feeds/#{params[:venue_name]}/"
