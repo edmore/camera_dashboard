@@ -36,7 +36,6 @@ helpers do
     venue << REDIS.get("venue:#{v_id}:cam_password")
     venue << REDIS.get("venue:#{v_id}:cam_url")
     venue << v_id
-
     venue
   end
 
