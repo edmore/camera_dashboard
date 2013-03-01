@@ -68,16 +68,13 @@ get "/venues" do
 end
 
 post "/venue" do
-  status = ""
   cmds = []
-
   unless (params[:venue_name] == "" || params[:cam_url] == "")
     v_id = REDIS.incr "venue:id"
     REDIS.rpush("venues", v_id)
     set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
     cmds << "mkdir public/feeds/#{params[:venue_name]}/"
     system cmds.join("&&")
-    status = :success
   end
   redirect '/venues'
 end
@@ -89,7 +86,6 @@ get "/venue/:id" do
 end
 
 put "/venue/:id" do
-  status = ""
   cmds = []
   v_id = params[:id]
   old_venue_name = REDIS.get("venue:#{v_id}:venue_name")
@@ -99,8 +95,6 @@ put "/venue/:id" do
     cmds << "mv public/feeds/#{old_venue_name}/ public/feeds/#{params[:venue_name]}/"
   end
   system cmds.join("&&")
-
-  status = :success
   redirect '/venues'
 end
 
@@ -119,6 +113,5 @@ delete "/venue/:id" do
     REDIS.del("venue:#{v_id}:#{o}")
   end
   system("rmdir public/feeds/#{venue_name}")
-
   redirect '/venues'
 end
