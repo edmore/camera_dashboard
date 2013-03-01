@@ -24,7 +24,6 @@ helpers do
         venues[i] << Time.parse(REDIS.get("venue:#{v_id}:last_updated"))
       end
     end
-    puts venues.inspect
     venues
   end
 
@@ -71,7 +70,6 @@ end
 post "/venue" do
   status = ""
   cmds = []
-  puts params.inspect
 
   unless (params[:venue_name] == "" || params[:cam_url] == "")
     v_id = REDIS.incr "venue:id"
