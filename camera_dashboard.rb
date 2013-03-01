@@ -117,7 +117,10 @@ delete "/venue/:id" do
   venue_name = REDIS.get("venue:#{v_id}:venue_name")
 
   REDIS.lrem("venues", 0, v_id)
-  REDIS.del("venue:#{v_id}:venue_name", "venue:#{v_id}:cam_user", "venue:#{v_id}:cam_password", "venue:#{v_id}:cam_url")
+  options = ["venue_name", "cam_user", "cam_password", "cam_url", "last_updated"]
+  options.each do |o|
+    REDIS.del("venue:#{v_id}:#{o}")
+  end
   system("rmdir public/feeds/#{venue_name}")
 
   redirect '/venues'
