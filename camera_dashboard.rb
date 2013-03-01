@@ -17,7 +17,6 @@ helpers do
   def get_venues
     venues = []
     venue_list = REDIS.lrange("venues", 0, -1)
-
     venue_list.each_with_index do |v_id, i|
       venues[i] = []
       venues[i] = get_venue(v_id, ["venue_name", "cam_url"])
