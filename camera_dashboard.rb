@@ -20,9 +20,7 @@ helpers do
 
     venue_list.each_with_index do |v_id, i|
       venues[i] = []
-      venues[i] << REDIS.get("venue:#{v_id}:venue_name")
-      venues[i] << REDIS.get("venue:#{v_id}:cam_url")
-      venues[i] << v_id
+      venues[i] = get_venue(v_id, ["venue_name", "cam_url"])
       unless REDIS.get("venue:#{v_id}:last_updated").nil?
         venues[i] << Time.parse(REDIS.get("venue:#{v_id}:last_updated"))
       end
