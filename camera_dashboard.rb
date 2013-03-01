@@ -15,7 +15,6 @@ end
 
 helpers do
   def get_venues
-
     venues = []
     venue_list = REDIS.lrange("venues", 0, -1)
 
