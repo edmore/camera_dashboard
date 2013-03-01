@@ -15,7 +15,7 @@ end
 
 helpers do
   def get_venues
-    today = Time.now
+
     venues = []
     venue_list = REDIS.lrange("venues", 0, -1)
 
@@ -27,23 +27,23 @@ helpers do
       venues[i] << Time.parse(REDIS.get("venue:#{v_id}:last_updated"))
     end
     puts venues.inspect
-    [venues, today]
+    venues
   end
 end
 
 get "/" do
-  venues = get_venues[0]
+  venues = get_venues
   haml :dashboard, :locals => {:venues => venues}
 end
 
 get "/tiled" do
-  venues = get_venues[0]
-  today = get_venues[1]
+  venues = get_venues
+  today = Time.now
   haml :tiled, :locals => {:venues => venues, :today => today}
 end
 
 get "/venues" do
-  venues = get_venues[0]
+  venues = get_venues
   haml :venues, :locals => {:venues => venues}
 end
 
