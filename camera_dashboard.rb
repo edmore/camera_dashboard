@@ -1,6 +1,6 @@
 require 'sinatra'
 require 'haml'
-require 'REDIS'
+require 'redis'
 require 'time'
 require_relative 'matterhornconfig.rb'
 
