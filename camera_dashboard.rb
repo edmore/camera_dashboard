@@ -23,10 +23,28 @@ helpers do
       venues[i] << REDIS.get("venue:#{v_id}:venue_name")
       venues[i] << REDIS.get("venue:#{v_id}:cam_url")
       venues[i] << v_id
-      venues[i] << Time.parse(REDIS.get("venue:#{v_id}:last_updated"))
+      venues[i] << Time.parse(REDIS.get("venue:#{v_id}:last_updated")) unless REDIS.get("venue:#{v_id}:last_updated").nil?
     end
     puts venues.inspect
     venues
+  end
+
+  def get_venue(v_id)
+    venue = []
+    venue << REDIS.get("venue:#{v_id}:venue_name")
+    venue << REDIS.get("venue:#{v_id}:cam_user")
+    venue << REDIS.get("venue:#{v_id}:cam_password")
+    venue << REDIS.get("venue:#{v_id}:cam_url")
+    venue << v_id
+
+    venue
+  end
+
+  def set_venue(v_id)
+    REDIS.set("venue:#{v_id}:venue_name", params[:venue_name].downcase)
+    REDIS.set("venue:#{v_id}:cam_user", params[:cam_user])
+    REDIS.set("venue:#{v_id}:cam_password", params[:cam_password])
+    REDIS.set("venue:#{v_id}:cam_url", params[:cam_url])
   end
 end
 
@@ -52,13 +70,9 @@ post "/venue" do
   puts params.inspect
 
   unless (params[:venue_name] == "" || params[:cam_url] == "")
-    venue_id = REDIS.incr "venue:id"
-    REDIS.rpush("venues", venue_id)
-    REDIS.set("venue:#{venue_id}:venue_name", params[:venue_name].downcase)
-    REDIS.set("venue:#{venue_id}:cam_user", params[:cam_user])
-    REDIS.set("venue:#{venue_id}:cam_password", params[:cam_password])
-    REDIS.set("venue:#{venue_id}:cam_url", params[:cam_url])
-
+    v_id = REDIS.incr "venue:id"
+    REDIS.rpush("venues", v_id)
+    set_venue(v_id)
     cmds << "mkdir public/feeds/#{params[:venue_name]}/"
     system cmds.join("&&")
     status = :success
@@ -67,15 +81,8 @@ post "/venue" do
 end
 
 get "/venue/:id" do
-  venue = []
   v_id = params[:id]
-
-  venue << REDIS.get("venue:#{v_id}:venue_name")
-  venue << REDIS.get("venue:#{v_id}:cam_user")
-  venue << REDIS.get("venue:#{v_id}:cam_password")
-  venue << REDIS.get("venue:#{v_id}:cam_url")
-  venue << v_id
-
+  venue = get_venue(v_id)
   haml :venue_edit, :locals => {:venue => venue}
 end
 
@@ -84,11 +91,7 @@ put "/venue/:id" do
   cmds = []
   v_id = params[:id]
   old_venue_name = REDIS.get("venue:#{v_id}:venue_name")
-
-  REDIS.set("venue:#{v_id}:venue_name", params[:venue_name].downcase)
-  REDIS.set("venue:#{v_id}:cam_user", params[:cam_user])
-  REDIS.set("venue:#{v_id}:cam_password", params[:cam_password])
-  REDIS.set("venue:#{v_id}:cam_url", params[:cam_url])
+  set_venue(v_id)
 
   if old_venue_name != params[:venue_name]
     cmds << "mv public/feeds/#{old_venue_name}/ public/feeds/#{params[:venue_name]}/"
@@ -101,7 +104,6 @@ end
 
 get "/venue/:id/delete" do
   v_id = params[:id]
-
   haml :venue_delete, :locals => {:v_id => v_id}
 end
 
