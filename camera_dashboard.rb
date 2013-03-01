@@ -45,6 +45,11 @@ helpers do
     REDIS.set("venue:#{v_id}:cam_password", params[:cam_password])
     REDIS.set("venue:#{v_id}:cam_url", params[:cam_url])
   end
+
+  def not_regularly_updating(last_updated)
+    today = Time.now
+    ((today - last_updated)/60).round > 10
+  end
 end
 
 get "/" do
@@ -54,8 +59,7 @@ end
 
 get "/tiled" do
   venues = get_venues
-  today = Time.now
-  haml :tiled, :locals => {:venues => venues, :today => today}
+  haml :tiled, :locals => {:venues => venues}
 end
 
 get "/venues" do

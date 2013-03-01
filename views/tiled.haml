@@ -23,7 +23,7 @@
               %li
                 -unless venue[3].nil?
                   %span Last Updated:
-                  -if ((today - venue[3])/60).round > 10
+                  -if not_regularly_updating(venue[3])
                     %span.flag
                       = venue[3]
                   -else
