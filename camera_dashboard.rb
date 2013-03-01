@@ -63,10 +63,10 @@ post "/venue" do
     system cmds.join("&&")
     status = :success
   end
-  redirect '/venue'
+  redirect '/venues'
 end
 
-get "/venue" do
+get "/venues" do
   venues = []
   venue_list = redis.lrange("venues", 0, -1)
 
@@ -77,7 +77,7 @@ get "/venue" do
     venues[i] << v_id
   end
 
-  haml :venue, :locals => {:venues => venues}
+  haml :venues, :locals => {:venues => venues}
 end
 
 get "/venue/:id" do
@@ -110,7 +110,7 @@ put "/venue/:id" do
   system cmds.join("&&")
 
   status = :success
-  redirect '/venue'
+  redirect '/venues'
 end
 
 get "/venue/:id/delete" do
@@ -127,5 +127,5 @@ delete "/venue/:id" do
   redis.del("venue:#{v_id}:venue_name", "venue:#{v_id}:cam_user", "venue:#{v_id}:cam_password", "venue:#{v_id}:cam_url")
   system("rmdir public/feeds/#{venue_name}")
 
-  redirect '/venue'
+  redirect '/venues'
 end
