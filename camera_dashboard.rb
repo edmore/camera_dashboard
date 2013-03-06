@@ -66,7 +66,6 @@ get "/tiled" do
 end
 
 get "/venues" do
-  venues = get_venues
   with_venue_list {|v| haml :venues, :locals => {:venues => v} }
 end
 
