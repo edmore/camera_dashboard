@@ -50,21 +50,24 @@ helpers do
     today = Time.now
     ((today - last_updated)/60).round > 10
   end
+
+  def with_venue_list
+    v = get_venues
+    yield ( v ) if block_given?
+  end
 end
 
 get "/" do
-  venues = get_venues
-  haml :dashboard, :locals => {:venues => venues}
+  with_venue_list {|v| haml :dashboard, :locals => {:venues => v} }
 end
 
 get "/tiled" do
-  venues = get_venues
-  haml :tiled, :locals => {:venues => venues}
+  with_venue_list {|v| haml :tiled, :locals => {:venues => v} }
 end
 
 get "/venues" do
   venues = get_venues
-  haml :venues, :locals => {:venues => venues}
+  with_venue_list {|v| haml :venues, :locals => {:venues => v} }
 end
 
 post "/venue" do
