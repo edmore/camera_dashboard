@@ -95,6 +95,7 @@ put "/venue/:id" do
 
   if old_venue_name != params[:venue_name]
     cmds << "mv public/feeds/#{old_venue_name}/ public/feeds/#{params[:venue_name]}/"
+    cmds << "mv public/feeds/#{params[:venue_name]}/#{old_venue_name}.jpeg public/feeds/#{params[:venue_name]}/#{params[:venue_name]}.jpeg"
   end
   system cmds.join("&&")
   redirect '/venues'
