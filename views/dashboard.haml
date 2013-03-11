@@ -12,7 +12,11 @@
         %div.grid_venue
           -unless venue[3].nil?
             %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}
-          %span
-            = venue[0]
+            -if not_regularly_updating(venue[3])
+              %span.flag
+                = venue[0]
+            -else
+              %span.updating
+                = venue[0]
   -else
     = "Sorry IP camera information not setup yet."
