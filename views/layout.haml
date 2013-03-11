@@ -10,6 +10,8 @@
       document.createElement("section" );
       document.createElement("article" );
       </script>
+    -unless request.path_info.match(/venues/)
+      %meta{"http-equiv" => "refresh", :content => 120}
     %title
       IP Camera Dashboard
     %link{"rel" => "stylesheet", "href" => "../stylesheets/style.css", "type" => "text/css"}
