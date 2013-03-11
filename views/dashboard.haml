@@ -14,7 +14,7 @@
             %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}
             -if not_regularly_updating(venue[3])
               %span.flag
-                = venue[0]
+                = "#{venue[0]} (#{time_to_string(venue[3])})"
             -else
               %span.updating
                 = venue[0]

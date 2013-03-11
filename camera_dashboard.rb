@@ -55,6 +55,10 @@ helpers do
     v = get_venues
     yield ( v ) if block_given?
   end
+
+  def time_to_string(time)
+    time.strftime("%Y-%m-%d %H:%M")
+  end
 end
 
 get "/" do
