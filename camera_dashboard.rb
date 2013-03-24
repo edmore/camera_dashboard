@@ -74,13 +74,11 @@ get "/venues" do
 end
 
 post "/venue" do
-  cmds = []
   unless (params[:venue_name] == "" || params[:cam_url] == "")
     v_id = REDIS.incr "venue:id"
     REDIS.rpush("venues", v_id)
     set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
-    cmds << "mkdir public/feeds/#{params[:venue_name]}/"
-    system cmds.join("&&")
+    system("mkdir public/feeds/#{params[:venue_name]}/")
   end
   redirect '/venues'
 end
