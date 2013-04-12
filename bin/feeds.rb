@@ -17,7 +17,7 @@ venue_list.each do |v_id|
   login_cridentials = "-u #{cam_user} #{cam_password}" unless cam_user == ""
 
   FileUtils.mkdir_p("#{app_root}/public/feeds/#{venue_name}/")
-  cmds << "openRTSP #{login_cridentials} -F #{venue_name} -d 10 -b 300000 #{cam_url} 2> /dev/null && ffmpeg -i #{venue_name}video-H264-1 -r 1 -s 320x180 -ss 5 -vframes 1 -f image2 #{app_root}/public/feeds/#{venue_name}/#{venue_name}.jpeg 2> /dev/null && rm -f #{venue_name}video-H264-1 2> /dev/null"
+  cmds << "openRTSP #{login_cridentials} -F #{venue_name} -d 10 -b 300000 #{cam_url} 2> /dev/null && ffmpeg -i #{venue_name}video-H264-1 -r 1 -s 1280x720 -ss 5 -vframes 1 -f image2 #{app_root}/public/feeds/#{venue_name}/#{venue_name}_big.jpeg 2>/dev/null && ffmpeg -i #{app_root}/public/feeds/#{venue_name}/#{venue_name}_big.jpeg -s 320x180 -f image2 #{app_root}/public/feeds/#{venue_name}/#{venue_name}.jpeg 2>/dev/null  && rm -f #{venue_name}video-H264-1 2>/dev/null"
 end
 
 cmds.each{|c| system c }

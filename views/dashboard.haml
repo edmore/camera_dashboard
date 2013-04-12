@@ -10,7 +10,8 @@
       - venues.each do |venue|
         %div.grid_venue
           -unless venue[3].nil?
-            %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}
+            %a{:href => "feeds/#{venue[0]}/#{venue[0]}_big.jpeg"}
+              %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}
             -if not_regularly_updating(venue[3])
               %span.flag
                 = "#{venue[0]} (#{time_to_string(venue[3])})"
