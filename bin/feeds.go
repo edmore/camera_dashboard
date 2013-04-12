@@ -48,8 +48,10 @@ func main() {
 			dir := app_root + "/public/feeds/" + venue["venue_name"]
 			os.MkdirAll(dir, 0755)
 			feed_cmd := openRTSP + ` ` + login_cridentials + ` -F ` + venue["venue_name"] + ` -d 10 -b 300000 ` + venue["cam_url"] + ` \
-                                            && ` + ffmpeg + ` -i ` + venue["venue_name"] + `video-H264-1 -r 1 -s 320x180 -ss 5 -vframes 1\
-                                            -f image2 ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `.jpeg\
+                                            && ` + ffmpeg + ` -i ` + venue["venue_name"] + `video-H264-1 -r 1 -s 1280x720 -ss 5 -vframes 1\
+                                            -f image2 ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `_big.jpeg\
+                                            && ` + ffmpeg + ` -i ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `_big.jpeg\
+                                            -s 320x180 -f image2 ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `.jpeg\
                                             && rm -f ` + venue["venue_name"] + `video-H264-1`
 			cmd := exec.Command("bash", "-c", feed_cmd)
 			// run command
