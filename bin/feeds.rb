@@ -12,7 +12,7 @@ venue_list = redis.lrange("venues", 0, -1)
 venue_list.each do |v_id|
   venue = {}
   options = ["venue_name", "cam_url", "cam_user", "cam_password"]
-  options.each{ |o| venue[o] = redis.get("venue:#{v_id}:#{o}") }
+  options.each{|o| venue[o] = redis.get("venue:#{v_id}:#{o}")}
   login_cridentials = "-u #{venue["cam_user"]} #{venue["cam_password"]}" unless venue["cam_user"] == ""
 
   FileUtils.mkdir_p("#{app_root}/public/feeds/#{venue["venue_name"]}/")
