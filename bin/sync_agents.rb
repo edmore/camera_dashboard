@@ -53,7 +53,7 @@ if agents
     if cam_url != ""
       v_id = REDIS.incr "venue:id"
       REDIS.rpush("venues", v_id)
-      set_venue(v_id, {"venue_name" => venue_name, "cam_url" => cam_url})
+      set_venue(v_id, {"venue_name" => venue_name, "cam_url" => cam_url, "sync_time" => Time.now})
       FileUtils.mkdir_p("#{app_root}/public/feeds/#{venue_name}/")
     end
   end
