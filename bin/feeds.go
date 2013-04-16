@@ -30,7 +30,7 @@ func main() {
 
 	for _, v := range venue_list {
 		venue := make(map[string]string)
-		options := []string{"venue_name", "cam_url", "cam_user", "cam_password"}
+		options := []string{"venue_name", "cam_url"}
 		ffmpeg := getPath("ffmpeg")
 		openRTSP := getPath("openRTSP")
 

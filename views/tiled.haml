@@ -15,21 +15,17 @@
                 %span Venue:
                 %span
                   = venue[0]
-              %li
-                %span Camera URL:
-                %span
-                  = venue[1]
-              -unless venue[3].nil?
+              -unless venue[4].nil?
                 %li
                   %span Last Updated:
-                  -if not_regularly_updating(venue[3])
+                  -if not_regularly_updating(venue[4])
                     %span.flag
-                      = venue[3]
+                      = venue[4]
                   -else
                     %span.updating
-                      = venue[3]
+                      = venue[4]
           %div.feed
-            -unless venue[3].nil?
+            -unless venue[4].nil?
               %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}
           %div.clear
   -else

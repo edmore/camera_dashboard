@@ -11,7 +11,7 @@ venue_list = redis.lrange("venues", 0, -1)
 
 venue_list.each do |v_id|
   venue = {}
-  options = ["venue_name", "cam_url", "cam_user", "cam_password"]
+  options = ["venue_name", "cam_url"]
   options.each{|o| venue[o] = redis.get("venue:#{v_id}:#{o}")}
 
   FileUtils.mkdir_p("#{app_root}/public/feeds/#{venue["venue_name"]}/")

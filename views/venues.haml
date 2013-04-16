@@ -3,31 +3,6 @@
     IP Camera Information
   %p
     %a{:href => "/"} Dashboard
-  %form{:name => "venue_form", :method => "post", :action => "/venue"}
-    %table
-      %tr
-        %td
-          %label{:for => "venue_name"} Venue:
-        %td
-          %input{:type => "text", :name => "venue_name", :class => "text", :size => 30}
-      %tr
-        %td
-          %label{:for => "cam_user"} Camera Username:
-        %td
-          %input{:type => "text", :name => "cam_user", :class => "text", :size => 30}
-      %tr
-        %td
-          %label{:for => "cam_password"} Camera Password:
-        %td
-          %input{:type => "password", :name => "cam_password", :class => "text", :size => 30}
-      %tr
-        %td
-          %label{:for => "cam_url"} URL:
-        %td
-          %input{:type => "text", :name => "cam_url", :class => "text", :size => 50}
-      %tr
-        %td
-          %input{:type => "submit", :value => "Add"}
 
   %div{:class => "venues"}
     %h2 Venues
@@ -36,18 +11,12 @@
       %table.venue_listing
         %thead
           %tr
-            %th Venue
-            %th Camera URL
-            %th
-            %th
+            %th Venue Name
+            %th Last Synced
         %tbody
           - venues.each do |venue|
             %tr
               %td= venue[0]
-              %td= venue[1]
-              %td
-                %a{:href => "/venue/#{venue[2]}"} Edit
-              %td
-                %a{:href => "/venue/#{venue[2]}/delete"} Delete
+              %td= venue[2]
     -else
       = "Sorry no venues present at this time."

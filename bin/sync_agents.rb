@@ -20,7 +20,7 @@ def set_venue(v_id, options)
   end
 end
 
-uri = URI.parse("http://media.uct.ac.za:8080/capture-admin/agents.json")
+uri = URI.parse("http://media.uct.ac.za/capture-admin/agents.json")
 @http = Net::HTTP.new uri.host, uri.port
 uri.user, uri.password = MatterhornConfig::IPCam::DIGEST_AUTH
 

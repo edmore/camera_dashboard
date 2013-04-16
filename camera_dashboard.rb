@@ -19,7 +19,7 @@ helpers do
     venue_list = REDIS.lrange("venues", 0, -1)
     venue_list.each_with_index do |v_id, i|
       venues[i] = []
-      venues[i] = get_venue(v_id, ["venue_name", "cam_url"])
+      venues[i] = get_venue(v_id, ["venue_name", "cam_url", "sync_time"])
       unless REDIS.get("venue:#{v_id}:last_updated").nil?
         venues[i] << Time.parse(REDIS.get("venue:#{v_id}:last_updated"))
       end
@@ -34,16 +34,6 @@ helpers do
     end
     venue << v_id
     venue
-  end
-
-  def set_venue(v_id, options)
-    options.each do |o|
-      if (o == "venue_name")
-        REDIS.set("venue:#{v_id}:#{o}", params["#{o}".to_sym].downcase)
-      else
-        REDIS.set("venue:#{v_id}:#{o}", params["#{o}".to_sym])
-      end
-    end
   end
 
   def not_regularly_updating(last_updated)
@@ -71,52 +61,4 @@ end
 
 get "/venues" do
   with_venue_list {|v| haml :venues, :locals => {:venues => v} }
-end
-
-post "/venue" do
-  unless (params[:venue_name] == "" || params[:cam_url] == "")
-    v_id = REDIS.incr "venue:id"
-    REDIS.rpush("venues", v_id)
-    set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
-    system("mkdir public/feeds/#{params[:venue_name]}/")
-  end
-  redirect '/venues'
-end
-
-get "/venue/:id" do
-  v_id = params[:id]
-  venue = get_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
-  haml :venue_edit, :locals => {:venue => venue}
-end
-
-put "/venue/:id" do
-  cmds = []
-  v_id = params[:id]
-  old_venue_name = REDIS.get("venue:#{v_id}:venue_name")
-  set_venue(v_id, ["venue_name", "cam_user", "cam_password", "cam_url"])
-
-  if old_venue_name != params[:venue_name]
-    cmds << "mv public/feeds/#{old_venue_name}/ public/feeds/#{params[:venue_name]}/"
-    cmds << "mv public/feeds/#{params[:venue_name]}/#{old_venue_name}.jpeg public/feeds/#{params[:venue_name]}/#{params[:venue_name]}.jpeg"
-  end
-  system cmds.join("&&")
-  redirect '/venues'
-end
-
-get "/venue/:id/delete" do
-  v_id = params[:id]
-  haml :venue_delete, :locals => {:v_id => v_id}
-end
-
-delete "/venue/:id" do
-  v_id = params[:id]
-  venue_name = REDIS.get("venue:#{v_id}:venue_name")
-
-  REDIS.lrem("venues", 0, v_id)
-  options = ["venue_name", "cam_user", "cam_password", "cam_url", "last_updated"]
-  options.each do |o|
-    REDIS.del("venue:#{v_id}:#{o}")
-  end
-  system("rmdir public/feeds/#{venue_name}")
-  redirect '/venues'
 end

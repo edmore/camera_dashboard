@@ -9,12 +9,12 @@
     %div.grid_venues
       - venues.each do |venue|
         %div.grid_venue
-          -unless venue[3].nil?
+          -unless venue[4].nil?
             %a{:href => "feeds/#{venue[0]}/#{venue[0]}_big.jpeg"}
               %img{:src => "feeds/#{venue[0]}/#{venue[0]}.jpeg"}
-            -if not_regularly_updating(venue[3])
+            -if not_regularly_updating(venue[4])
               %span.flag
-                = "#{venue[0]} (#{time_to_string(venue[3])})"
+                = "#{venue[0]} (#{time_to_string(venue[4])})"
             -else
               %span.updating
                 = venue[0]
