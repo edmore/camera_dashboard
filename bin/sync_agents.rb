@@ -23,7 +23,7 @@ end
 
 uri = URI.parse("http://media.uct.ac.za/capture-admin/agents.json")
 @http = Net::HTTP.new uri.host, uri.port
-uri.user, uri.password = MatterhornConfig::IPCam::DIGEST_AUTH
+uri.user, uri.password = MatterhornConfig::Endpoint::DIGEST_AUTH
 
 head = Net::HTTP::Head.new uri.request_uri
 head['X-REQUESTED-AUTH'] = 'Digest'

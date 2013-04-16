@@ -10,7 +10,7 @@ set :haml, :format => :html5
 REDIS = Redis.new
 
 use Rack::Auth::Basic, "Restricted Area" do |username, password|
-  [username, password] == MatterhornConfig::IPCam::AUTH
+  [username, password] == MatterhornConfig::Dashboard::BASIC_AUTH
 end
 
 helpers do
