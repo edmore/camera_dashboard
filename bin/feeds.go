@@ -33,21 +33,16 @@ func main() {
 		options := []string{"venue_name", "cam_url", "cam_user", "cam_password"}
 		ffmpeg := getPath("ffmpeg")
 		openRTSP := getPath("openRTSP")
-		login_cridentials := ""
 
 		for _, o := range options {
 			venue[o], _ = redis.String(c.Do("GET", "venue:"+v+":"+o))
-		}
-
-		if venue["cam_user"] != "" {
-			login_cridentials = "-u " + venue["cam_user"] + " " + venue["cam_password"]
 		}
 
 		go func(v string) {
 			wg.Add(1)
 			dir := app_root + "/public/feeds/" + venue["venue_name"]
 			os.MkdirAll(dir, 0755)
-			feed_cmd := openRTSP + ` ` + login_cridentials + ` -F ` + venue["venue_name"] + ` -d 10 -b 300000 ` + venue["cam_url"] + ` \
+			feed_cmd := openRTSP + ` -F ` + venue["venue_name"] + ` -d 10 -b 300000 ` + venue["cam_url"] + ` \
                                             && ` + ffmpeg + ` -i ` + venue["venue_name"] + `video-H264-1 -r 1 -s 1280x720 -ss 5 -vframes 1\
                                             -f image2 ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `_big.jpeg\
                                             && ` + ffmpeg + ` -i ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `_big.jpeg\
