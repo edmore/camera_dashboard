@@ -47,7 +47,7 @@ func main() {
                                             -f image2 ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `_big.jpeg\
                                             && ` + ffmpeg + ` -i ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `_big.jpeg\
                                             -s 320x180 -f image2 ` + app_root + `/public/feeds/` + venue["venue_name"] + `/` + venue["venue_name"] + `.jpeg\
-                                            && rm -f ` + venue["venue_name"] + `video-H264-1`
+                                            && rm -f ` + venue["venue_name"] + `*`
 			cmd := exec.Command("bash", "-c", feed_cmd)
 			// run command
 			err = cmd.Run()
