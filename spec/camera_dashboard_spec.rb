@@ -38,7 +38,7 @@ end
 
 feature "Manage Page" do
   setup
-  scenario "should display the manage page" do
+  scenario "should display the venues page" do
     page.driver.browser.authorize 'admin', 'admin'
     visit("/venues")
     page.should have_content("IP Camera Information")
