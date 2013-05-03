@@ -16,18 +16,21 @@ RSpec.configure do |conf|
   conf.include Rack::Test::Methods
 end
 
-feature  "Dashboard page" do
+feature  "Grid View" do
   setup
   scenario "should display the dashboard" do
     page.driver.browser.authorize 'admin', 'admin'
     visit("/")
     page.should have_content("IP Camera Dashboard")
+    page.should have_link("Grid View")
+    page.should have_link("Tiled View")
+    page.should have_link("Manage")
   end
 end
 
-feature  "Tiled page" do
+feature  "Tiled View" do
   setup
-  scenario "should display the tiled page" do
+  scenario "should display the tiled view" do
     page.driver.browser.authorize 'admin', 'admin'
     visit("/tiled")
     page.should have_content("IP Camera Dashboard")
@@ -36,9 +39,9 @@ feature  "Tiled page" do
   end
 end
 
-feature "Manage Page" do
+feature "Manage" do
   setup
-  scenario "should display the venues page" do
+  scenario "should display the venue information" do
     page.driver.browser.authorize 'admin', 'admin'
     visit("/venues")
     page.should have_content("IP Camera Information")
