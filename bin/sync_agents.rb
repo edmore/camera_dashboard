@@ -45,7 +45,7 @@ if agents
   agents.each do |a|
     venue_name = a["name"]
     cam_url = ""
-
+    next if a["capabilities"]["item"].nil?
     a["capabilities"]["item"].each do |k|
       next unless k["value"] =~ /rtsp/
       cam_url =  k["value"]
