@@ -1,3 +1,5 @@
+** Up to date source code now available here - https://bitbucket.org/cilt/camera_dashboard **
+
 Display IP camera feeds retrieved over RTSP
 
 Technologies Used:
